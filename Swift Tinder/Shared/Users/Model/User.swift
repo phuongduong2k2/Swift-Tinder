@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct User: Identifiable & Hashable {
+struct User: Identifiable, Hashable {
     let id: String
     let fullName: String
     let age: Int

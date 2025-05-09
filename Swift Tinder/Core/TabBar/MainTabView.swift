@@ -16,11 +16,11 @@ public enum Tab: Hashable {
 }
 
 struct MainTabView: View {
-    @State private var selectedTab = Tab.favorite
+    @State private var selectedTab = Tab.main
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Text("Swiping View")
+            CardStackView()
                 .tabItem{ Image(selectedTab == .main ? .activeFlame : .inactiveFlame) }
                 .tag(Tab.main)
             

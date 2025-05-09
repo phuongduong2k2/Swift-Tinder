@@ -11,14 +11,14 @@ struct CardStackView: View {
     @StateObject var viewModel = CardViewModel(service: CardService())
     
     var body: some View {
-        ZStack() {
-            ForEach(viewModel.cardModels) {card in
-                CardView(cardViewModel: CardViewModel(service: CardService()),model: card)
+        VStack(spacing: 16) {
+            ZStack() {
+                ForEach(viewModel.cardModels) {card in
+                    CardView(viewModel: viewModel, model: card)
+                }
             }
+            ActionButtonView(viewModel: viewModel)
         }
-        .onChange(of: viewModel.cardModels, {olValue, newValue in
-            print("DEBUG: new value of card models \(newValue)")
-        })
     }
 }
 
