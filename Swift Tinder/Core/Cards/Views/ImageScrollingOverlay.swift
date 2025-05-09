@@ -14,7 +14,6 @@ struct ImageScrollingOverlay: View {
     
     var body: some View {
         VStack() {
-            CardImageIndicatorView(currentImageIndex: $currentImageIndex, imageCount: imageCount)
             HStack() {
                 Rectangle()
                     .onTapGesture {updateImage(next: false)}

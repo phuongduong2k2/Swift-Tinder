@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct InfoView: View {
+    let user: User
+    
     var body: some View {
         HStack(alignment: VerticalAlignment.center) {
-            VStack {
+            VStack(alignment: .leading) {
                 HStack(alignment: VerticalAlignment.center) {
-                    Text("Paulo").fontWeight(.bold).font(.system(size: 38)).lineLimit(1)
+                    Text(user.fullName).fontWeight(.bold).font(.system(size: 38)).lineLimit(1)
                     Text("29").font(.system(size: 25))
                 }
                 HStack {
                     Image(.residence)
-                    Text("Live in Alfama").font(.system(size: 16))
+                    Text("Age: \(user.age)").font(.system(size: 16))
                         .lineLimit(1)
                 }
                 HStack {
@@ -36,5 +38,5 @@ struct InfoView: View {
 }
 
 #Preview {
-    InfoView()
+    InfoView(user: MockData.users[0])
 }

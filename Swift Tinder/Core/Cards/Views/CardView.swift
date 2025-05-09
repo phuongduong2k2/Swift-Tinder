@@ -8,29 +8,31 @@
 import SwiftUI
 
 struct CardView: View {
+    @ObservedObject var cardViewModel: CardViewModel
     @State private var xOffset: CGFloat = 0
     @State private var degrees: Double = 0
     @State private var currentOffset: CGFloat = 0
     @State private var currentImageIndex: Int = 0
     
-    @State private var mockImages = [
-        "user1",
-        "user2",
-        "user3",
-        "user4"
-    ]
+    let model: CardModel
     
     var body: some View {
         ZStack(alignment: .bottom) {
             ZStack(alignment: .top) {
-                Image(mockImages[currentImageIndex])
+                Image(user.profileImageUrls[currentImageIndex])
                     .resizable()
                     .scaledToFill()
-                    .overlay(ImageScrollingOverlay(currentImageIndex: $currentImageIndex, imageCount: mockImages.count))
+                    .overlay(
+                        ImageScrollingOverlay(
+                            currentImageIndex: $currentImageIndex,
+                            imageCount: imageCount)
+                    )
+                
+                CardImageIndicatorView(currentImageIndex: $currentImageIndex, imageCount: imageCount)
                 
                 SwipeActionIndicatorView(xOffset: $xOffset)
             }
-            InfoView()
+            InfoView(user: user)
         }
         .frame(width: SizeConstants.cardWidth, height: SizeConstants.cardHeight)
         .scaledToFill()
@@ -47,6 +49,35 @@ struct CardView: View {
 }
 
 private extension CardView {
+    var user: User {
+        return model.user
+    }
+    
+    var imageCount: Int {
+        return model.user.profileImageUrls.count
+    }
+}
+
+private extension CardView {
+    func returnToCenter() {
+        xOffset = 0
+        degrees = 0
+    }
+    func swipeLeft() {
+        xOffset = 500
+        degrees = 12
+        
+        cardViewModel.removeCard(model)
+    }
+    func swipeRight() {
+        xOffset = -500
+        degrees = -12
+        
+        cardViewModel.removeCard(model)
+    }
+}
+
+private extension CardView {
     func onDragChanged(_ value: _ChangedGesture<DragGesture>.Value) {
         xOffset = value.translation.width
         degrees = Double(value.translation.width / 25)
@@ -55,12 +86,18 @@ private extension CardView {
         let width = value.translation.width
         
         if abs(width) < abs(SizeConstants.screenCutOff) {
-            xOffset = 0
-            degrees = 0
+            return returnToCenter()
+        }
+        if width >= SizeConstants.screenCutOff {
+            swipeLeft()
+        } else {
+            swipeRight()
         }
     }
 }
 
 #Preview {
-    CardView()
+    CardView(cardViewModel: CardViewModel(service: CardService()),
+             model: CardModel(user: MockData.users[0])
+    )
 }

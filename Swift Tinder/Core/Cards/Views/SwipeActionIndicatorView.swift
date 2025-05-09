@@ -12,7 +12,7 @@ struct SwipeActionIndicatorView: View {
     
     var body: some View {
         HStack() {
-            Text("YES")
+            Text("LIKE")
                 .font(.title)
                 .fontWeight(.heavy)
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(.green, lineWidth: 5).frame(width: 100, height: 48))
