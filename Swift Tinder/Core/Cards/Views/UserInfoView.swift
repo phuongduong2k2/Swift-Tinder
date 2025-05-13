@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct InfoView: View {
+struct UserInfoView: View {
     let user: User
+    @Binding var showProfileModal: Bool
     
     var body: some View {
         HStack(alignment: VerticalAlignment.center) {
@@ -29,7 +30,11 @@ struct InfoView: View {
                 }
             }
             Spacer()
-            Image(.info)
+            Button {
+                showProfileModal.toggle()
+            } label: {
+                Image(.info)
+            }
         }
         .padding()
         .foregroundColor(.white)
@@ -38,5 +43,5 @@ struct InfoView: View {
 }
 
 #Preview {
-    InfoView(user: MockData.users[0])
+    UserInfoView(user: MockData.users[0], showProfileModal: .constant(false))
 }

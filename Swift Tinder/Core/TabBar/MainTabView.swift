@@ -36,7 +36,7 @@ struct MainTabView: View {
                 .tabItem{ Image(selectedTab == .chat ? .activeMessage : .inactiveMessage) }
                 .tag(Tab.chat)
             
-            Text("Profile View")
+            CurrentProfile(user: MockData.users[0])
                 .tabItem{ Image(selectedTab == .profile ? .activePerson : .inactivePerson) }
                 .tag(Tab.profile)
         }
